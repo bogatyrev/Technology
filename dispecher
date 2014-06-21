@@ -1,0 +1,153 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string>
+
+using namespace std;
+const int N = 4;
+
+class Rectangle;
+class Tretangle;
+class Cub;
+
+class Shape
+{
+protected:
+	 string name;
+public:
+	virtual void Peresech(Rectangle& a) = 0;
+	virtual void Peresech(Tretangle& a) = 0;
+	virtual void Peresech(Cub& a) = 0;
+	virtual void Peresech(Shape& a) = 0;
+};
+
+class Rectangle:public Shape
+{
+public:
+	Rectangle();
+	virtual void Peresech(Rectangle& a);
+	virtual void Peresech(Tretangle& a);
+	virtual void Peresech(Cub& a);
+	virtual void Peresech(Shape& a);
+};
+
+class Tretangle:public Shape
+{
+public:
+	Tretangle();
+	virtual void Peresech(Rectangle& a);
+	virtual void Peresech(Tretangle& a);
+	virtual void Peresech(Cub& a);
+	virtual void Peresech(Shape& a);
+};
+
+class Cub:public Shape
+{
+public:
+	Cub();
+	virtual void Peresech(Rectangle& a);
+	virtual void Peresech(Tretangle& a);
+	virtual void Peresech(Cub& a);
+	virtual void Peresech(Shape& a);
+};
+
+Rectangle::Rectangle()
+{
+	name = string("Rectangle");
+};
+
+Tretangle::Tretangle()
+{
+	name = string("Tretangle");
+};
+
+Cub::Cub()
+{
+	name = string("Cub");
+};
+
+void Rectangle::Peresech(Rectangle& a)
+{
+	printf("Rectangle --- Rectangle\n");
+};
+
+void Tretangle::Peresech(Tretangle& a)
+{
+	printf("Tretangle --- Tretangle\n");
+};
+
+void Cub::Peresech(Cub& a)
+{
+	printf("Cub --- Cub\n");
+};
+
+void Rectangle::Peresech(Tretangle& a)
+{
+	printf("Rectangle --- Tretangle\n");
+};
+
+void Rectangle::Peresech(Cub& a)
+{
+	printf("Rectangle --- Cub\n");
+};
+
+void Tretangle::Peresech(Rectangle& a)
+{
+	a.Peresech(*this);
+};
+
+void Tretangle::Peresech(Cub& a)
+{
+	a.Peresech(*this);
+};
+
+void Cub::Peresech(Rectangle& a)
+{
+	a.Peresech(*this);
+}
+
+void Cub::Peresech(Tretangle& a)
+{
+	a.Peresech(*this);
+}
+
+void Rectangle::Peresech(Shape& a)
+{
+	a.Peresech(*this);
+}
+
+void Tretangle::Peresech(Shape& a)
+{
+	a.Peresech(*this);
+}
+
+void Cub::Peresech(Shape& a)
+{
+	a.Peresech(*this);
+}
+
+void main()
+{
+	Shape** Arr = new Shape*[N];
+
+	Rectangle* a = new Rectangle();
+	Tretangle* b = new Tretangle();
+	Cub* c = new Cub();
+
+	Arr[0] = a;
+	Arr[1] = b;
+	Arr[2] = c;
+	Arr[3] = a;
+
+	Arr[3]->Peresech(*Arr[0]);
+	Arr[0]->Peresech(*Arr[3]);
+
+	Arr[2]->Peresech(*Arr[0]);
+	Arr[0]->Peresech(*Arr[2]);
+
+	Arr[1]->Peresech(*Arr[0]);
+	Arr[0]->Peresech(*Arr[1]);
+
+	system("pause");
+
+	return;
+}
